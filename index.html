@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tree-Plenish · School Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.14.0/dist/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --surface-0: #f5f4f0;
+      --surface-1: #eeecea;
+      --surface-2: #ffffff;
+      --text-primary: #1a1a18;
+      --text-secondary: #5f5e5a;
+      --text-muted: #888780;
+      --border: rgba(0,0,0,0.1);
+      --border-strong: rgba(0,0,0,0.16);
+      --radius: 8px;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --surface-0: #1c1c1a;
+        --surface-1: #252522;
+        --surface-2: #2e2e2b;
+        --text-primary: #f0efe9;
+        --text-secondary: #b4b2a9;
+        --text-muted: #888780;
+        --border: rgba(255,255,255,0.08);
+        --border-strong: rgba(255,255,255,0.14);
+      }
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--surface-0);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: #EAF3DE;
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-icon i { font-size: 20px; color: #3B6D11; }
+    .logo-title { font-size: 16px; font-weight: 500; color: var(--text-primary); }
+    .logo-sub { font-size: 12px; color: var(--text-muted); }
+    .user-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #EAF3DE;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 500;
+      color: #3B6D11;
+      flex-shrink: 0;
+    }
+    .user-name { font-size: 13px; color: var(--text-secondary); }
+
+    /* Metric cards */
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 1.5rem;
+    }
+    .metric-card {
+      background: var(--surface-1);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+    }
+    .metric-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+    .metric-value { font-size: 26px; font-weight: 500; color: var(--text-primary); }
+    .metric-note { font-size: 11px; margin-top: 2px; }
+    .note-green { color: #3B6D11; }
+    .note-amber { color: #854F0B; }
+    .note-muted { color: var(--text-muted); }
+    .prog-bar {
+      height: 6px;
+      border-radius: 3px;
+      background: var(--border);
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .prog-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: #1D9E75;
+    }
+
+    /* Two-col layout */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 14px;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--surface-2);
+      border: 0.5px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .card-title { font-size: 14px; font-weight: 500; color: var(--text-primary); }
+
+    /* Buttons */
+    button {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      padding: 5px 12px;
+      border: 0.5px solid var(--border-strong);
+      border-radius: var(--radius);
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    button:hover { background: var(--surface-1); }
+
+    /* Event items */
+    .event-list { display: flex; flex-direction: column; gap: 10px; }
+    .event-item {
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px;
+    }
+    .event-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .event-name { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+    .event-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .event-meta i { font-size: 12px; vertical-align: -1px; }
+    .event-stats {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    .event-stats i { font-size: 12px; vertical-align: -1px; }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .badge i { font-size: 12px; }
+    .badge-confirmed { background: #EAF3DE; color: #3B6D11; }
+    .badge-planning  { background: #FAEEDA; color: #854F0B; }
+    .badge-idea      { background: #F1EFE8; color: #5F5E5A; }
+    .badge-processing{ background: #E6F1FB; color: #185FA5; }
+    .badge-delivered { background: #EAF3DE; color: #3B6D11; }
+    .badge-pending   { background: #FAEEDA; color: #854F0B; }
+
+    /* Volunteer list */
+    .vol-list { display: flex; flex-direction: column; gap: 8px; }
+    .vol-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .vol-info { display: flex; align-items: center; gap: 8px; }
+    .vol-name { font-size: 12px; font-weight: 500; color: var(--text-primary); }
+    .vol-sub  { font-size: 11px; color: var(--text-muted); }
+    .divider  { border: none; border-top: 0.5px solid var(--border); margin: 2px 0; }
+
+    .avatar-green  { background: #EAF3DE; color: #3B6D11; }
+    .avatar-blue   { background: #E6F1FB; color: #185FA5; }
+    .avatar-pink   { background: #FBEAF0; color: #993556; }
+    .avatar-amber  { background: #FAEEDA; color: #854F0B; }
+
+    /* Orders table */
+    .orders-table {
+      width: 100%;
+      font-size: 13px;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    .orders-table colgroup col:nth-child(1) { width: 28%; }
+    .orders-table colgroup col:nth-child(2) { width: 14%; }
+    .orders-table colgroup col:nth-child(3) { width: 14%; }
+    .orders-table colgroup col:nth-child(4) { width: 18%; }
+    .orders-table colgroup col:nth-child(5) { width: 16%; }
+    .orders-table colgroup col:nth-child(6) { width: 10%; }
+    .orders-table th {
+      text-align: left;
+      padding: 0 0 8px;
+      font-weight: 500;
+      color: var(--text-muted);
+      font-size: 12px;
+      border-bottom: 0.5px solid var(--border);
+    }
+    .orders-table th.right,
+    .orders-table td.right { text-align: right; }
+    .orders-table td {
+      padding: 10px 0;
+      color: var(--text-secondary);
+      border-bottom: 0.5px solid var(--border);
+    }
+    .orders-table td.primary { color: var(--text-primary); }
+    .orders-table tr:last-child td { border-bottom: none; }
+    .orders-table td.status { padding-left: 12px; }
+    .orders-table th.pl { padding-left: 12px; }
+
+    @media (max-width: 640px) {
+      .metrics { grid-template-columns: repeat(2, 1fr); }
+      .two-col  { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <header class="header">
+    <div class="header-left">
+      <div class="logo-icon"><i class="ti ti-trees" aria-hidden="true"></i></div>
+      <div>
+        <div class="logo-title">Tree-Plenish</div>
+        <div class="logo-sub">Coordinator portal</div>
+      </div>
+    </div>
+    <div class="user-chip">
+      <div class="avatar avatar-green">JL</div>
+      <span class="user-name">Jordan Lee · Lincoln HS</span>
+    </div>
+  </header>
+
+  <section class="metrics" aria-label="Key metrics">
+    <div class="metric-card">
+      <div class="metric-label">Trees ordered</div>
+      <div class="metric-value">350</div>
+      <div class="metric-note note-green">↑ 50 from last event</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Trees planted</div>
+      <div class="metric-value">210</div>
+      <div class="prog-bar"><div class="prog-fill" style="width:60%"></div></div>
+      <div class="metric-note note-muted">60% of order</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Volunteers signed up</div>
+      <div class="metric-value">84</div>
+      <div class="metric-note note-amber">Goal: 100</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Upcoming events</div>
+      <div class="metric-value">3</div>
+      <div class="metric-note note-muted">Next: Jul 12</div>
+    </div>
+  </section>
+
+  <div class="two-col">
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Upcoming events</span>
+        <button><i class="ti ti-plus" aria-hidden="true"></i> New event</button>
+      </div>
+      <div class="event-list">
+        <div class="event-item">
+          <div class="event-top">
+            <div>
+              <div class="event-name">Spring Planting Day</div>
+              <div class="event-meta"><i class="ti ti-calendar" aria-hidden="true"></i> Jul 12 · 9:00 AM · North Park</div>
+            </div>
+            <span class="badge badge-confirmed"><i class="ti ti-circle-check" aria-hidden="true"></i> Confirmed</span>
+          </div>
+          <div class="event-stats">
+            <span><i class="ti ti-users" aria-hidden="true"></i> 42 volunteers</span>
+            <span><i class="ti ti-trees" aria-hidden="true"></i> 120 trees</span>
+          </div>
+        </div>
+        <div class="event-item">
+          <div class="event-top">
+            <div>
+              <div class="event-name">Campus Green Initiative</div>
+              <div class="event-meta"><i class="ti ti-calendar" aria-hidden="true"></i> Aug 3 · 10:00 AM · Campus East</div>
+            </div>
+            <span class="badge badge-planning"><i class="ti ti-clock" aria-hidden="true"></i> Planning</span>
+          </div>
+          <div class="event-stats">
+            <span><i class="ti ti-users" aria-hidden="true"></i> 28 volunteers</span>
+            <span><i class="ti ti-trees" aria-hidden="true"></i> 80 trees</span>
+          </div>
+        </div>
+        <div class="event-item">
+          <div class="event-top">
+            <div>
+              <div class="event-name">Fall Neighborhood Drive</div>
+              <div class="event-meta"><i class="ti ti-calendar" aria-hidden="true"></i> Sep 20 · TBD</div>
+            </div>
+            <span class="badge badge-idea"><i class="ti ti-bulb" aria-hidden="true"></i> Idea</span>
+          </div>
+          <div class="event-stats" style="color:var(--text-muted)">Volunteers and location TBD</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Volunteer activity</span>
+      </div>
+      <div class="vol-list">
+        <div class="vol-row">
+          <div class="vol-info">
+            <div class="avatar avatar-green">AM</div>
+            <div>
+              <div class="vol-name">Alex M.</div>
+              <div class="vol-sub">3 events · 85 trees</div>
+            </div>
+          </div>
+          <span class="badge badge-confirmed" style="font-size:11px;padding:2px 8px">Top</span>
+        </div>
+        <hr class="divider" />
+        <div class="vol-row">
+          <div class="vol-info">
+            <div class="avatar avatar-blue">SR</div>
+            <div>
+              <div class="vol-name">Sam R.</div>
+              <div class="vol-sub">2 events · 60 trees</div>
+            </div>
+          </div>
+        </div>
+        <div class="vol-row">
+          <div class="vol-info">
+            <div class="avatar avatar-pink">PK</div>
+            <div>
+              <div class="vol-name">Priya K.</div>
+              <div class="vol-sub">2 events · 55 trees</div>
+            </div>
+          </div>
+        </div>
+        <div class="vol-row">
+          <div class="vol-info">
+            <div class="avatar avatar-amber">TN</div>
+            <div>
+              <div class="vol-name">Tyler N.</div>
+              <div class="vol-sub">1 event · 30 trees</div>
+            </div>
+          </div>
+        </div>
+        <hr class="divider" />
+        <button style="width:100%;text-align:center;padding:7px">
+          <i class="ti ti-user-plus" aria-hidden="true"></i> Recruit volunteers
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">Tree orders</span>
+      <button><i class="ti ti-plus" aria-hidden="true"></i> New order</button>
+    </div>
+    <table class="orders-table">
+      <colgroup><col><col><col><col><col><col></colgroup>
+      <thead>
+        <tr>
+          <th>Species</th>
+          <th class="right">Qty</th>
+          <th class="right">Planted</th>
+          <th class="pl">Delivery</th>
+          <th class="pl">Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="primary">Red Oak</td>
+          <td class="right">150</td>
+          <td class="right">150</td>
+          <td class="status" style="color:var(--text-muted)">Jun 15</td>
+          <td class="status"><span class="badge badge-delivered">Delivered</span></td>
+          <td class="right"><i class="ti ti-dots" style="font-size:14px;color:var(--text-muted)" aria-hidden="true"></i></td>
+        </tr>
+        <tr>
+          <td class="primary">Sugar Maple</td>
+          <td class="right">100</td>
+          <td class="right">60</td>
+          <td class="status" style="color:var(--text-muted)">Jul 10</td>
+          <td class="status"><span class="badge badge-processing">Processing</span></td>
+          <td class="right"><i class="ti ti-dots" style="font-size:14px;color:var(--text-muted)" aria-hidden="true"></i></td>
+        </tr>
+        <tr>
+          <td class="primary">White Birch</td>
+          <td class="right">100</td>
+          <td class="right">—</td>
+          <td class="status" style="color:var(--text-muted)">Aug 1</td>
+          <td class="status"><span class="badge badge-pending">Pending</span></td>
+          <td class="right"><i class="ti ti-dots" style="font-size:14px;color:var(--text-muted)" aria-hidden="true"></i></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</body>
+</html>
