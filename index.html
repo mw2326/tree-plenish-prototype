@@ -3,410 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tree-Plenish · School Dashboard</title>
+  <title>Dashboard · Tree-Plenish</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.14.0/dist/tabler-icons.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --surface-0: #f5f4f0;
-      --surface-1: #eeecea;
-      --surface-2: #ffffff;
-      --sidebar-bg: #1a1a18;
-      --sidebar-text: #b4b2a9;
-      --sidebar-active: #ffffff;
-      --sidebar-hover: rgba(255,255,255,0.07);
-      --text-primary: #1a1a18;
-      --text-secondary: #5f5e5a;
-      --text-muted: #888780;
-      --border: rgba(0,0,0,0.10);
-      --border-strong: rgba(0,0,0,0.16);
-      --radius: 8px;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --surface-0: #1c1c1a;
-        --surface-1: #252522;
-        --surface-2: #2e2e2b;
-        --text-primary: #f0efe9;
-        --text-secondary: #b4b2a9;
-        --text-muted: #888780;
-        --border: rgba(255,255,255,0.08);
-        --border-strong: rgba(255,255,255,0.14);
-      }
-    }
-
-    body { background: var(--surface-0); color: var(--text-primary); min-height: 100vh; display: flex; }
-
-    /* Sidebar */
-    .sidebar {
-      width: 220px;
-      min-height: 100vh;
-      background: var(--sidebar-bg);
-      display: flex;
-      flex-direction: column;
-      padding: 20px 12px;
-      flex-shrink: 0;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-    }
-    .sidebar-logo {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      padding: 4px 8px 20px;
-      border-bottom: 0.5px solid rgba(255,255,255,0.08);
-      margin-bottom: 16px;
-    }
-    .sidebar-logo-icon {
-      width: 30px; height: 30px;
-      background: #1D9E75;
-      border-radius: 7px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .sidebar-logo-icon i { font-size: 17px; color: #fff; }
-    .sidebar-logo-text { font-size: 14px; font-weight: 500; color: #fff; }
-    .sidebar-logo-sub  { font-size: 11px; color: var(--sidebar-text); }
-
-    .nav-section-label {
-      font-size: 10px;
-      font-weight: 500;
-      color: rgba(255,255,255,0.3);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 0 8px;
-      margin: 16px 0 4px;
-    }
-
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      padding: 8px 10px;
-      border-radius: var(--radius);
-      cursor: pointer;
-      color: var(--sidebar-text);
-      font-size: 13px;
-      border: none;
-      background: transparent;
-      width: 100%;
-      text-align: left;
-      transition: background 0.12s, color 0.12s;
-    }
-    .nav-item:hover { background: var(--sidebar-hover); color: #fff; }
-    .nav-item.active { background: rgba(255,255,255,0.10); color: var(--sidebar-active); }
-    .nav-item i { font-size: 17px; }
-    .nav-badge {
-      margin-left: auto;
-      background: #E24B4A;
-      color: #fff;
-      font-size: 10px;
-      font-weight: 500;
-      padding: 1px 6px;
-      border-radius: 10px;
-    }
-
-    .sidebar-footer {
-      margin-top: auto;
-      border-top: 0.5px solid rgba(255,255,255,0.08);
-      padding-top: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding-left: 4px;
-    }
-    .sidebar-avatar {
-      width: 28px; height: 28px; border-radius: 50%;
-      background: #1D9E75;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 11px; font-weight: 500; color: #fff;
-    }
-    .sidebar-user-name { font-size: 12px; color: #fff; }
-    .sidebar-user-role { font-size: 11px; color: var(--sidebar-text); }
-
-    /* Main */
-    .main {
-      flex: 1;
-      padding: 2rem 2rem 3rem;
-      max-width: 900px;
-    }
-
-    .page { display: none; }
-    .page.active { display: block; }
-
-    /* Page header */
-    .page-title {
-      font-size: 20px;
-      font-weight: 500;
-      color: var(--text-primary);
-      margin-bottom: 4px;
-    }
-    .page-sub {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 1.5rem;
-    }
-
-    /* Cards */
-    .card {
-      background: var(--surface-2);
-      border: 0.5px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
-    }
-    .card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 12px;
-    }
-    .card-title { font-size: 14px; font-weight: 500; color: var(--text-primary); }
-
-    /* Metric cards */
-    .metrics {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-bottom: 1.5rem;
-    }
-    .metric-card {
-      background: var(--surface-1);
-      border-radius: var(--radius);
-      padding: 14px 16px;
-    }
-    .metric-label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
-    .metric-value { font-size: 26px; font-weight: 500; color: var(--text-primary); }
-    .metric-note  { font-size: 11px; margin-top: 3px; }
-    .prog-bar { height: 6px; border-radius: 3px; background: var(--border); overflow: hidden; margin-top: 6px; }
-    .prog-fill { height: 100%; border-radius: 3px; background: #1D9E75; }
-
-    /* Two-col */
-    .two-col { display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px; margin-bottom: 1.5rem; }
-    .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 1.5rem; }
-
-    /* Badges */
-    .badge {
-      display: inline-flex; align-items: center; gap: 4px;
-      padding: 3px 10px; border-radius: 20px;
-      font-size: 12px; font-weight: 500; white-space: nowrap;
-    }
-    .badge i { font-size: 12px; }
-    .badge-sm { font-size: 11px; padding: 2px 8px; }
-    .badge-confirmed  { background: #EAF3DE; color: #3B6D11; }
-    .badge-planning   { background: #FAEEDA; color: #854F0B; }
-    .badge-idea       { background: #F1EFE8; color: #5F5E5A; }
-    .badge-processing { background: #E6F1FB; color: #185FA5; }
-    .badge-delivered  { background: #EAF3DE; color: #3B6D11; }
-    .badge-pending    { background: #FAEEDA; color: #854F0B; }
-    .badge-active     { background: #EAF3DE; color: #3B6D11; }
-    .badge-onboarding { background: #E6F1FB; color: #185FA5; }
-    .badge-inactive   { background: #F1EFE8; color: #5F5E5A; }
-
-    /* Buttons */
-    button, .btn {
-      font-family: inherit;
-      font-size: 12px;
-      padding: 5px 12px;
-      border: 0.5px solid var(--border-strong);
-      border-radius: var(--radius);
-      background: transparent;
-      color: var(--text-secondary);
-      cursor: pointer;
-    }
-    button:hover { background: var(--surface-1); }
-    .btn-primary {
-      background: #1D9E75;
-      color: #fff;
-      border-color: #1D9E75;
-      font-size: 13px;
-      padding: 8px 18px;
-    }
-    .btn-primary:hover { background: #18876A; }
-
-    /* Event items */
-    .event-item {
-      border: 0.5px solid var(--border);
-      border-radius: var(--radius);
-      padding: 12px;
-      margin-bottom: 10px;
-    }
-    .event-item:last-child { margin-bottom: 0; }
-    .event-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 6px; }
-    .event-name { font-size: 13px; font-weight: 500; color: var(--text-primary); }
-    .event-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-    .event-stats { display: flex; gap: 12px; font-size: 12px; color: var(--text-secondary); }
-    .event-stats i { font-size: 12px; vertical-align: -1px; }
-
-    /* Avatar */
-    .avatar {
-      width: 28px; height: 28px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 11px; font-weight: 500; flex-shrink: 0;
-    }
-    .avatar-lg {
-      width: 36px; height: 36px; font-size: 13px;
-    }
-
-    /* Volunteer rows */
-    .vol-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-    .vol-row:last-child { margin-bottom: 0; }
-    .vol-info { display: flex; align-items: center; gap: 8px; }
-    .vol-name { font-size: 12px; font-weight: 500; color: var(--text-primary); }
-    .vol-sub  { font-size: 11px; color: var(--text-muted); }
-    .divider  { border: none; border-top: 0.5px solid var(--border); margin: 8px 0; }
-
-    /* Notifications */
-    .notif-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 10px 0;
-      border-bottom: 0.5px solid var(--border);
-    }
-    .notif-item:last-child { border-bottom: none; padding-bottom: 0; }
-    .notif-icon {
-      width: 30px; height: 30px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0; margin-top: 1px;
-    }
-    .notif-icon i { font-size: 15px; }
-    .notif-text { font-size: 13px; color: var(--text-primary); line-height: 1.4; }
-    .notif-time { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-    .notif-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: #E24B4A;
-      flex-shrink: 0;
-      margin-top: 6px;
-      margin-left: auto;
-    }
-
-    /* Table */
-    table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    th {
-      text-align: left; padding: 0 0 8px;
-      font-weight: 500; color: var(--text-muted); font-size: 12px;
-      border-bottom: 0.5px solid var(--border);
-    }
-    td { padding: 11px 0; color: var(--text-secondary); border-bottom: 0.5px solid var(--border); }
-    tr:last-child td { border-bottom: none; }
-    td.primary { color: var(--text-primary); }
-    td.right, th.right { text-align: right; }
-    td.pl, th.pl { padding-left: 12px; }
-
-    /* Schools table */
-    .school-row:hover td { background: var(--surface-1); cursor: pointer; }
-    .school-name { font-size: 13px; font-weight: 500; color: var(--text-primary); }
-    .school-location { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
-
-    /* Form */
-    .form-group { margin-bottom: 1.25rem; }
-    .form-label { display: block; font-size: 13px; font-weight: 500; color: var(--text-primary); margin-bottom: 6px; }
-    .form-label span { color: var(--text-muted); font-weight: 400; }
-    .form-input, .form-select, .form-textarea {
-      width: 100%;
-      padding: 9px 12px;
-      border: 0.5px solid var(--border-strong);
-      border-radius: var(--radius);
-      background: var(--surface-2);
-      color: var(--text-primary);
-      font-family: inherit;
-      font-size: 14px;
-    }
-    .form-input:focus, .form-select:focus, .form-textarea:focus {
-      outline: none;
-      border-color: #1D9E75;
-      box-shadow: 0 0 0 3px rgba(29,158,117,0.12);
-    }
-    .form-textarea { resize: vertical; min-height: 80px; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .form-hint { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-    .form-section-title { font-size: 15px; font-weight: 500; color: var(--text-primary); margin: 1.5rem 0 1rem; padding-top: 1rem; border-top: 0.5px solid var(--border); }
-
-    /* Chart */
-    .chart-wrap { position: relative; height: 180px; }
-
-    /* Communications */
-    .comm-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 12px 0;
-      border-bottom: 0.5px solid var(--border);
-    }
-    .comm-item:last-child { border-bottom: none; }
-    .comm-icon {
-      width: 32px; height: 32px; border-radius: var(--radius);
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-    }
-    .comm-subject { font-size: 13px; font-weight: 500; color: var(--text-primary); }
-    .comm-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-    .comm-stats { display: flex; gap: 12px; font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
-
-    @media (max-width: 700px) {
-      .sidebar { display: none; }
-      .metrics { grid-template-columns: repeat(2,1fr); }
-      .two-col, .three-col, .form-row { grid-template-columns: 1fr; }
-    }
-  </style>
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
+  <nav class="sidebar" id="sidebar"></nav>
 
-<!-- Sidebar -->
-<nav class="sidebar">
-  <div class="sidebar-logo">
-    <div class="sidebar-logo-icon"><i class="ti ti-trees" aria-hidden="true"></i></div>
-    <div>
-      <div class="sidebar-logo-text">Tree-Plenish</div>
-      <div class="sidebar-logo-sub">Lincoln HS</div>
-    </div>
-  </div>
-
-  <div class="nav-section-label">Overview</div>
-  <button class="nav-item active" onclick="showPage('dashboard', this)">
-    <i class="ti ti-layout-dashboard" aria-hidden="true"></i> Dashboard
-  </button>
-  <button class="nav-item" onclick="showPage('schools', this)">
-    <i class="ti ti-building-community" aria-hidden="true"></i> Schools
-  </button>
-
-  <div class="nav-section-label">Manage</div>
-  <button class="nav-item" onclick="showPage('events', this)">
-    <i class="ti ti-calendar-event" aria-hidden="true"></i> Events
-  </button>
-  <button class="nav-item" onclick="showPage('orders', this)">
-    <i class="ti ti-package" aria-hidden="true"></i> Orders
-  </button>
-  <button class="nav-item" onclick="showPage('volunteers', this)">
-    <i class="ti ti-users" aria-hidden="true"></i> Volunteers
-  </button>
-
-  <div class="nav-section-label">Communicate</div>
-  <button class="nav-item" onclick="showPage('communications', this)" style="position:relative">
-    <i class="ti ti-mail" aria-hidden="true"></i> Communications
-    <span class="nav-badge">3</span>
-  </button>
-  <button class="nav-item" onclick="showPage('signup', this)">
-    <i class="ti ti-forms" aria-hidden="true"></i> Signup Form
-  </button>
-
-  <div class="sidebar-footer">
-    <div class="sidebar-avatar">JL</div>
-    <div>
-      <div class="sidebar-user-name">Jordan Lee</div>
-      <div class="sidebar-user-role">Coordinator</div>
-    </div>
-  </div>
-</nav>
-
-<!-- Main content -->
-<main class="main">
-
-  <!-- DASHBOARD -->
-  <div id="page-dashboard" class="page active">
+  <main class="main">
     <div class="page-title">Dashboard</div>
     <div class="page-sub">Welcome back, Jordan. Here's what's happening at Lincoln HS.</div>
 
@@ -435,11 +39,10 @@
     </section>
 
     <div class="two-col">
-      <!-- Events -->
       <div class="card">
         <div class="card-header">
           <span class="card-title">Upcoming events</span>
-          <button onclick="showPage('events', null)"><i class="ti ti-plus" aria-hidden="true"></i> New event</button>
+          <a href="events.html"><button><i class="ti ti-plus" aria-hidden="true"></i> New event</button></a>
         </div>
         <div class="event-item">
           <div class="event-top">
@@ -479,16 +82,13 @@
         </div>
       </div>
 
-      <!-- Notifications -->
       <div class="card">
         <div class="card-header">
           <span class="card-title">Notifications</span>
           <span style="font-size:11px;color:var(--text-muted)">3 unread</span>
         </div>
         <div class="notif-item">
-          <div class="notif-icon" style="background:#FCEBEB">
-            <i class="ti ti-user-minus" style="color:#A32D2D"></i>
-          </div>
+          <div class="notif-icon" style="background:#FCEBEB"><i class="ti ti-user-minus" style="color:#A32D2D"></i></div>
           <div style="flex:1">
             <div class="notif-text"><strong>2 volunteers dropped out</strong> of Spring Planting Day</div>
             <div class="notif-time">10 minutes ago</div>
@@ -496,9 +96,7 @@
           <div class="notif-dot"></div>
         </div>
         <div class="notif-item">
-          <div class="notif-icon" style="background:#FAEEDA">
-            <i class="ti ti-package" style="color:#854F0B"></i>
-          </div>
+          <div class="notif-icon" style="background:#FAEEDA"><i class="ti ti-package" style="color:#854F0B"></i></div>
           <div style="flex:1">
             <div class="notif-text"><strong>Sugar Maple delivery</strong> rescheduled to Jul 14</div>
             <div class="notif-time">2 hours ago</div>
@@ -506,9 +104,7 @@
           <div class="notif-dot"></div>
         </div>
         <div class="notif-item">
-          <div class="notif-icon" style="background:#EAF3DE">
-            <i class="ti ti-circle-check" style="color:#3B6D11"></i>
-          </div>
+          <div class="notif-icon" style="background:#EAF3DE"><i class="ti ti-circle-check" style="color:#3B6D11"></i></div>
           <div style="flex:1">
             <div class="notif-text"><strong>Event page published</strong> for Campus Green Initiative</div>
             <div class="notif-time">Yesterday</div>
@@ -516,9 +112,7 @@
           <div class="notif-dot"></div>
         </div>
         <div class="notif-item">
-          <div class="notif-icon" style="background:#E6F1FB">
-            <i class="ti ti-user-plus" style="color:#185FA5"></i>
-          </div>
+          <div class="notif-icon" style="background:#E6F1FB"><i class="ti ti-user-plus" style="color:#185FA5"></i></div>
           <div style="flex:1">
             <div class="notif-text"><strong>12 new volunteer signups</strong> since last week</div>
             <div class="notif-time">2 days ago</div>
@@ -528,7 +122,6 @@
     </div>
 
     <div class="two-col">
-      <!-- Chart -->
       <div class="card">
         <div class="card-header">
           <span class="card-title">Trees planted over time</span>
@@ -539,7 +132,6 @@
         </div>
       </div>
 
-      <!-- Volunteer leaderboard -->
       <div class="card">
         <div class="card-header"><span class="card-title">Volunteer activity</span></div>
         <div class="vol-row">
@@ -569,17 +161,14 @@
           </div>
         </div>
         <hr class="divider">
-        <button style="width:100%;text-align:center;padding:7px" onclick="showPage('volunteers', null)">
-          <i class="ti ti-users" aria-hidden="true"></i> View all volunteers
-        </button>
+        <a href="volunteers.html"><button style="width:100%;text-align:center;padding:7px"><i class="ti ti-users" aria-hidden="true"></i> View all volunteers</button></a>
       </div>
     </div>
 
-    <!-- Orders -->
     <div class="card">
       <div class="card-header">
         <span class="card-title">Tree orders</span>
-        <button onclick="showPage('orders', null)"><i class="ti ti-plus" aria-hidden="true"></i> New order</button>
+        <a href="orders.html"><button><i class="ti ti-plus" aria-hidden="true"></i> New order</button></a>
       </div>
       <table>
         <colgroup><col style="width:28%"><col style="width:14%"><col style="width:14%"><col style="width:18%"><col style="width:16%"><col style="width:10%"></colgroup>
@@ -609,362 +198,10 @@
         </tbody>
       </table>
     </div>
-  </div>
+  </main>
 
-  <!-- SCHOOLS -->
-  <div id="page-schools" class="page">
-    <div class="page-title">Schools</div>
-    <div class="page-sub">All schools in the Tree-Plenish network.</div>
-
-    <div class="card">
-      <div class="card-header">
-        <span class="card-title">Active schools</span>
-        <button><i class="ti ti-plus"></i> Add school</button>
-      </div>
-      <table>
-        <colgroup><col style="width:26%"><col style="width:14%"><col style="width:12%"><col style="width:12%"><col style="width:14%"><col style="width:14%"><col style="width:8%"></colgroup>
-        <thead><tr>
-          <th>School</th><th>Status</th><th class="right">Trees</th><th class="right">Planted</th><th class="right">Volunteers</th><th class="pl">Next event</th><th></th>
-        </tr></thead>
-        <tbody>
-          <tr class="school-row">
-            <td>
-              <div class="school-name">Lincoln High School</div>
-              <div class="school-location">Chicago, IL</div>
-            </td>
-            <td><span class="badge badge-active">Active</span></td>
-            <td class="right">350</td><td class="right">210</td><td class="right">84</td>
-            <td class="pl" style="color:var(--text-muted)">Jul 12</td>
-            <td class="right"><i class="ti ti-chevron-right" style="font-size:14px;color:var(--text-muted)"></i></td>
-          </tr>
-          <tr class="school-row">
-            <td>
-              <div class="school-name">Westview Academy</div>
-              <div class="school-location">Evanston, IL</div>
-            </td>
-            <td><span class="badge badge-active">Active</span></td>
-            <td class="right">200</td><td class="right">200</td><td class="right">60</td>
-            <td class="pl" style="color:var(--text-muted)">Aug 18</td>
-            <td class="right"><i class="ti ti-chevron-right" style="font-size:14px;color:var(--text-muted)"></i></td>
-          </tr>
-          <tr class="school-row">
-            <td>
-              <div class="school-name">Riverside STEM</div>
-              <div class="school-location">Oak Park, IL</div>
-            </td>
-            <td><span class="badge badge-onboarding">Onboarding</span></td>
-            <td class="right">100</td><td class="right">0</td><td class="right">22</td>
-            <td class="pl" style="color:var(--text-muted)">Sep 5</td>
-            <td class="right"><i class="ti ti-chevron-right" style="font-size:14px;color:var(--text-muted)"></i></td>
-          </tr>
-          <tr class="school-row">
-            <td>
-              <div class="school-name">North Shore Prep</div>
-              <div class="school-location">Wilmette, IL</div>
-            </td>
-            <td><span class="badge badge-active">Active</span></td>
-            <td class="right">280</td><td class="right">280</td><td class="right">95</td>
-            <td class="pl" style="color:var(--text-muted)">Oct 2</td>
-            <td class="right"><i class="ti ti-chevron-right" style="font-size:14px;color:var(--text-muted)"></i></td>
-          </tr>
-          <tr class="school-row">
-            <td>
-              <div class="school-name">Lakeside Middle School</div>
-              <div class="school-location">Waukegan, IL</div>
-            </td>
-            <td><span class="badge badge-inactive">Inactive</span></td>
-            <td class="right">150</td><td class="right">150</td><td class="right">40</td>
-            <td class="pl" style="color:var(--text-muted)">—</td>
-            <td class="right"><i class="ti ti-chevron-right" style="font-size:14px;color:var(--text-muted)"></i></td>
-          </tr>
-          <tr class="school-row">
-            <td>
-              <div class="school-name">Madison Elementary</div>
-              <div class="school-location">Naperville, IL</div>
-            </td>
-            <td><span class="badge badge-onboarding">Onboarding</span></td>
-            <td class="right">75</td><td class="right">0</td><td class="right">15</td>
-            <td class="pl" style="color:var(--text-muted)">TBD</td>
-            <td class="right"><i class="ti ti-chevron-right" style="font-size:14px;color:var(--text-muted)"></i></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- EVENTS -->
-  <div id="page-events" class="page">
-    <div class="page-title">Events</div>
-    <div class="page-sub">Manage planting events across all schools.</div>
-    <div class="card">
-      <div class="card-header"><span class="card-title">All events</span><button><i class="ti ti-plus"></i> New event</button></div>
-      <table>
-        <colgroup><col style="width:28%"><col style="width:16%"><col style="width:16%"><col style="width:12%"><col style="width:12%"><col style="width:16%"></colgroup>
-        <thead><tr><th>Event</th><th>Date</th><th>Location</th><th class="right">Trees</th><th class="right">Volunteers</th><th class="pl">Status</th></tr></thead>
-        <tbody>
-          <tr><td class="primary">Spring Planting Day</td><td style="color:var(--text-muted)">Jul 12</td><td style="color:var(--text-muted)">North Park</td><td class="right">120</td><td class="right">42</td><td class="pl"><span class="badge badge-confirmed">Confirmed</span></td></tr>
-          <tr><td class="primary">Campus Green Initiative</td><td style="color:var(--text-muted)">Aug 3</td><td style="color:var(--text-muted)">Campus East</td><td class="right">80</td><td class="right">28</td><td class="pl"><span class="badge badge-planning">Planning</span></td></tr>
-          <tr><td class="primary">Fall Neighborhood Drive</td><td style="color:var(--text-muted)">Sep 20</td><td style="color:var(--text-muted)">TBD</td><td class="right">—</td><td class="right">—</td><td class="pl"><span class="badge badge-idea">Idea</span></td></tr>
-          <tr><td class="primary">Earth Day Kickoff</td><td style="color:var(--text-muted)">Apr 22</td><td style="color:var(--text-muted)">Riverside Park</td><td class="right">90</td><td class="right">55</td><td class="pl"><span class="badge badge-delivered">Completed</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- ORDERS -->
-  <div id="page-orders" class="page">
-    <div class="page-title">Orders</div>
-    <div class="page-sub">Track tree orders and delivery status.</div>
-    <div class="card">
-      <div class="card-header"><span class="card-title">All orders</span><button><i class="ti ti-plus"></i> New order</button></div>
-      <table>
-        <colgroup><col style="width:24%"><col style="width:16%"><col style="width:12%"><col style="width:12%"><col style="width:18%"><col style="width:18%"></colgroup>
-        <thead><tr><th>Species</th><th>School</th><th class="right">Qty</th><th class="right">Planted</th><th class="pl">Delivery</th><th class="pl">Status</th></tr></thead>
-        <tbody>
-          <tr><td class="primary">Red Oak</td><td style="color:var(--text-muted)">Lincoln HS</td><td class="right">150</td><td class="right">150</td><td class="pl" style="color:var(--text-muted)">Jun 15</td><td class="pl"><span class="badge badge-delivered">Delivered</span></td></tr>
-          <tr><td class="primary">Sugar Maple</td><td style="color:var(--text-muted)">Lincoln HS</td><td class="right">100</td><td class="right">60</td><td class="pl" style="color:var(--text-muted)">Jul 14</td><td class="pl"><span class="badge badge-processing">Processing</span></td></tr>
-          <tr><td class="primary">White Birch</td><td style="color:var(--text-muted)">Lincoln HS</td><td class="right">100</td><td class="right">—</td><td class="pl" style="color:var(--text-muted)">Aug 1</td><td class="pl"><span class="badge badge-pending">Pending</span></td></tr>
-          <tr><td class="primary">Silver Maple</td><td style="color:var(--text-muted)">Westview</td><td class="right">200</td><td class="right">200</td><td class="pl" style="color:var(--text-muted)">May 10</td><td class="pl"><span class="badge badge-delivered">Delivered</span></td></tr>
-          <tr><td class="primary">Eastern Redbud</td><td style="color:var(--text-muted)">Riverside STEM</td><td class="right">100</td><td class="right">—</td><td class="pl" style="color:var(--text-muted)">Sep 1</td><td class="pl"><span class="badge badge-pending">Pending</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- VOLUNTEERS -->
-  <div id="page-volunteers" class="page">
-    <div class="page-title">Volunteers</div>
-    <div class="page-sub">Everyone who has signed up to plant trees.</div>
-    <div class="card">
-      <div class="card-header"><span class="card-title">All volunteers</span><button onclick="showPage('signup', null)"><i class="ti ti-link"></i> Share signup form</button></div>
-      <table>
-        <colgroup><col style="width:24%"><col style="width:20%"><col style="width:12%"><col style="width:14%"><col style="width:30%"></colgroup>
-        <thead><tr><th>Name</th><th>Email</th><th class="right">Events</th><th class="right">Trees</th><th class="pl">Last event</th></tr></thead>
-        <tbody>
-          <tr><td class="primary">Alex Martinez</td><td style="color:var(--text-muted)">alex@email.com</td><td class="right">3</td><td class="right">85</td><td class="pl" style="color:var(--text-muted)">Spring Planting Day</td></tr>
-          <tr><td class="primary">Sam Rivera</td><td style="color:var(--text-muted)">sam@email.com</td><td class="right">2</td><td class="right">60</td><td class="pl" style="color:var(--text-muted)">Earth Day Kickoff</td></tr>
-          <tr><td class="primary">Priya Kumar</td><td style="color:var(--text-muted)">priya@email.com</td><td class="right">2</td><td class="right">55</td><td class="pl" style="color:var(--text-muted)">Earth Day Kickoff</td></tr>
-          <tr><td class="primary">Tyler Nguyen</td><td style="color:var(--text-muted)">tyler@email.com</td><td class="right">1</td><td class="right">30</td><td class="pl" style="color:var(--text-muted)">Earth Day Kickoff</td></tr>
-          <tr><td class="primary">Maya Chen</td><td style="color:var(--text-muted)">maya@email.com</td><td class="right">1</td><td class="right">25</td><td class="pl" style="color:var(--text-muted)">Spring Planting Day</td></tr>
-          <tr><td class="primary">Jordan Patel</td><td style="color:var(--text-muted)">jpatel@email.com</td><td class="right">1</td><td class="right">20</td><td class="pl" style="color:var(--text-muted)">Spring Planting Day</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- COMMUNICATIONS -->
-  <div id="page-communications" class="page">
-    <div class="page-title">Communications</div>
-    <div class="page-sub">Automated emails sent to volunteers and coordinators.</div>
-
-    <div class="three-col" style="margin-bottom:1.5rem">
-      <div class="metric-card">
-        <div class="metric-label">Emails sent</div>
-        <div class="metric-value">247</div>
-        <div class="metric-note" style="color:var(--text-muted)">Last 30 days</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Open rate</div>
-        <div class="metric-value">68%</div>
-        <div class="metric-note" style="color:#3B6D11">↑ 4% vs last month</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">Pending sends</div>
-        <div class="metric-value">3</div>
-        <div class="metric-note" style="color:#854F0B">Scheduled this week</div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-header"><span class="card-title">Recent communications</span><button><i class="ti ti-plus"></i> New email</button></div>
-      <div class="comm-item">
-        <div class="comm-icon" style="background:#EAF3DE"><i class="ti ti-mail-check" style="font-size:17px;color:#3B6D11"></i></div>
-        <div style="flex:1">
-          <div class="comm-subject">Spring Planting Day — volunteer confirmation</div>
-          <div class="comm-meta">Sent to 42 volunteers · Jul 8 at 9:00 AM</div>
-          <div class="comm-stats">
-            <span><i class="ti ti-eye" style="font-size:12px;vertical-align:-1px"></i> 38 opened</span>
-            <span><i class="ti ti-cursor-text" style="font-size:12px;vertical-align:-1px"></i> 12 clicked</span>
-          </div>
-        </div>
-        <span class="badge badge-delivered" style="font-size:11px;padding:2px 8px">Sent</span>
-      </div>
-      <div class="comm-item">
-        <div class="comm-icon" style="background:#FAEEDA"><i class="ti ti-clock" style="font-size:17px;color:#854F0B"></i></div>
-        <div style="flex:1">
-          <div class="comm-subject">Reminder: Spring Planting Day is in 4 days</div>
-          <div class="comm-meta">Scheduled for Jul 8 · 84 recipients</div>
-          <div class="comm-stats" style="color:var(--text-muted)">Sends automatically</div>
-        </div>
-        <span class="badge badge-planning" style="font-size:11px;padding:2px 8px">Scheduled</span>
-      </div>
-      <div class="comm-item">
-        <div class="comm-icon" style="background:#E6F1FB"><i class="ti ti-mail" style="font-size:17px;color:#185FA5"></i></div>
-        <div style="flex:1">
-          <div class="comm-subject">Campus Green Initiative — signup now open</div>
-          <div class="comm-meta">Scheduled for Jul 10 · All Lincoln HS contacts</div>
-          <div class="comm-stats" style="color:var(--text-muted)">Sends automatically</div>
-        </div>
-        <span class="badge badge-planning" style="font-size:11px;padding:2px 8px">Scheduled</span>
-      </div>
-      <div class="comm-item">
-        <div class="comm-icon" style="background:#EAF3DE"><i class="ti ti-mail-check" style="font-size:17px;color:#3B6D11"></i></div>
-        <div style="flex:1">
-          <div class="comm-subject">Thank you for planting with us — Earth Day recap</div>
-          <div class="comm-meta">Sent to 55 volunteers · Apr 23 at 10:00 AM</div>
-          <div class="comm-stats">
-            <span><i class="ti ti-eye" style="font-size:12px;vertical-align:-1px"></i> 50 opened</span>
-            <span><i class="ti ti-cursor-text" style="font-size:12px;vertical-align:-1px"></i> 28 clicked</span>
-          </div>
-        </div>
-        <span class="badge badge-delivered" style="font-size:11px;padding:2px 8px">Sent</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- VOLUNTEER SIGNUP FORM -->
-  <div id="page-signup" class="page">
-    <div class="page-title">Volunteer signup form</div>
-    <div class="page-sub">Public-facing form for volunteers to sign up for planting events.</div>
-
-    <div class="card" style="max-width:560px">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:0.5px solid var(--border)">
-        <div style="width:36px;height:36px;background:#EAF3DE;border-radius:var(--radius);display:flex;align-items:center;justify-content:center">
-          <i class="ti ti-trees" style="font-size:20px;color:#3B6D11"></i>
-        </div>
-        <div>
-          <div style="font-size:15px;font-weight:500;color:var(--text-primary)">Join a planting event</div>
-          <div style="font-size:12px;color:var(--text-muted)">Lincoln High School · Tree-Plenish</div>
-        </div>
-      </div>
-
-      <form onsubmit="handleSignup(event)">
-        <div class="form-section-title" style="margin-top:0;border-top:none;padding-top:0">Your info</div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">First name</label>
-            <input class="form-input" type="text" placeholder="Jordan" required />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Last name</label>
-            <input class="form-input" type="text" placeholder="Lee" required />
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Email address</label>
-          <input class="form-input" type="email" placeholder="jordan@email.com" required />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Phone <span>(optional)</span></label>
-          <input class="form-input" type="tel" placeholder="(555) 000-0000" />
-        </div>
-
-        <div class="form-section-title">Event</div>
-        <div class="form-group">
-          <label class="form-label">Which event are you signing up for?</label>
-          <select class="form-select" required>
-            <option value="" disabled selected>Select an event</option>
-            <option>Spring Planting Day — Jul 12, North Park</option>
-            <option>Campus Green Initiative — Aug 3, Campus East</option>
-            <option>Fall Neighborhood Drive — Sep 20</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">How many people are coming with you? <span>(including yourself)</span></label>
-          <select class="form-select">
-            <option>Just me</option>
-            <option>2 people</option>
-            <option>3 people</option>
-            <option>4+ people</option>
-          </select>
-        </div>
-
-        <div class="form-section-title">Anything else?</div>
-        <div class="form-group">
-          <label class="form-label">Questions or notes <span>(optional)</span></label>
-          <textarea class="form-textarea" placeholder="Accessibility needs, dietary restrictions for provided meals, etc."></textarea>
-        </div>
-
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:1.25rem">
-          <input type="checkbox" id="updates" style="width:16px;height:16px;accent-color:#1D9E75" />
-          <label for="updates" style="font-size:13px;color:var(--text-secondary);cursor:pointer">Send me updates about future Tree-Plenish events</label>
-        </div>
-
-        <button type="submit" class="btn-primary" style="width:100%;font-family:inherit">Sign up to plant trees</button>
-        <div class="form-hint" style="text-align:center;margin-top:10px">You'll get a confirmation email with event details.</div>
-      </form>
-
-      <div id="signup-success" style="display:none;text-align:center;padding:2rem 0">
-        <div style="width:52px;height:52px;background:#EAF3DE;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px">
-          <i class="ti ti-circle-check" style="font-size:28px;color:#3B6D11"></i>
-        </div>
-        <div style="font-size:16px;font-weight:500;color:var(--text-primary);margin-bottom:6px">You're signed up!</div>
-        <div style="font-size:13px;color:var(--text-muted)">Check your email for a confirmation with event details.</div>
-      </div>
-    </div>
-  </div>
-
-</main>
-
-<script>
-  function showPage(id, btn) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById('page-' + id).classList.add('active');
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    if (btn) {
-      btn.classList.add('active');
-    } else {
-      document.querySelectorAll('.nav-item').forEach(n => {
-        if (n.textContent.trim().toLowerCase().startsWith(id)) n.classList.add('active');
-      });
-    }
-    window.scrollTo(0, 0);
-    if (id === 'dashboard') initChart();
-  }
-
-  function handleSignup(e) {
-    e.preventDefault();
-    e.target.style.display = 'none';
-    document.getElementById('signup-success').style.display = 'block';
-  }
-
-  function initChart() {
-    const canvas = document.getElementById('treesChart');
-    if (!canvas || canvas._chartInstance) return;
-    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
-    const labelColor = isDark ? '#888780' : '#888780';
-    const chart = new Chart(canvas, {
-      type: 'bar',
-      data: {
-        labels: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
-        datasets: [{
-          label: 'Trees planted',
-          data: [0, 30, 90, 0, 90, 0, 0, 0],
-          backgroundColor: '#1D9E75',
-          borderRadius: 4,
-          borderSkipped: false,
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            callbacks: { label: ctx => ` ${ctx.parsed.y} trees` }
-          }
-        },
-        scales: {
-          x: { grid: { color: gridColor }, ticks: { color: labelColor, font: { size: 11 } } },
-          y: { grid: { color: gridColor }, ticks: { color: labelColor, font: { size: 11 } }, beginAtZero: true }
-        }
-      }
-    });
-    canvas._chartInstance = chart;
-  }
-
-  initChart();
-</script>
+  <script src="js/sidebar.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="js/chart.js"></script>
 </body>
 </html>

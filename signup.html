@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Volunteer Signup · Tree-Plenish</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.14.0/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <nav class="sidebar" id="sidebar"></nav>
+
+  <main class="main">
+    <div class="page-title">Volunteer signup form</div>
+    <div class="page-sub">Public-facing form for volunteers to sign up for planting events.</div>
+
+    <div class="card" style="max-width:560px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:0.5px solid var(--border)">
+        <div style="width:36px;height:36px;background:#EAF3DE;border-radius:var(--radius);display:flex;align-items:center;justify-content:center">
+          <i class="ti ti-trees" style="font-size:20px;color:#3B6D11" aria-hidden="true"></i>
+        </div>
+        <div>
+          <div style="font-size:15px;font-weight:500;color:var(--text-primary)">Join a planting event</div>
+          <div style="font-size:12px;color:var(--text-muted)">Lincoln High School · Tree-Plenish</div>
+        </div>
+      </div>
+
+      <form id="signup-form">
+        <div class="form-section-title" style="margin-top:0;border-top:none;padding-top:0">Your info</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">First name</label>
+            <input class="form-input" type="text" placeholder="Jordan" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last name</label>
+            <input class="form-input" type="text" placeholder="Lee" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Email address</label>
+          <input class="form-input" type="email" placeholder="jordan@email.com" required />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Phone <span>(optional)</span></label>
+          <input class="form-input" type="tel" placeholder="(555) 000-0000" />
+        </div>
+
+        <div class="form-section-title">Event</div>
+
+        <div class="form-group">
+          <label class="form-label">Which event are you signing up for?</label>
+          <select class="form-select" required>
+            <option value="" disabled selected>Select an event</option>
+            <option>Spring Planting Day — Jul 12, North Park</option>
+            <option>Campus Green Initiative — Aug 3, Campus East</option>
+            <option>Fall Neighborhood Drive — Sep 20</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">How many people are coming? <span>(including yourself)</span></label>
+          <select class="form-select">
+            <option>Just me</option>
+            <option>2 people</option>
+            <option>3 people</option>
+            <option>4+ people</option>
+          </select>
+        </div>
+
+        <div class="form-section-title">Anything else?</div>
+
+        <div class="form-group">
+          <label class="form-label">Questions or notes <span>(optional)</span></label>
+          <textarea class="form-textarea" placeholder="Accessibility needs, dietary restrictions for provided meals, etc."></textarea>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:1.25rem">
+          <input type="checkbox" id="updates" style="width:16px;height:16px;accent-color:#1D9E75" />
+          <label for="updates" style="font-size:13px;color:var(--text-secondary);cursor:pointer">
+            Send me updates about future Tree-Plenish events
+          </label>
+        </div>
+
+        <button type="submit" class="btn-primary" style="width:100%;font-family:inherit">
+          Sign up to plant trees
+        </button>
+        <div class="form-hint" style="text-align:center;margin-top:10px">
+          You'll get a confirmation email with event details.
+        </div>
+      </form>
+
+      <div id="signup-success" style="display:none;text-align:center;padding:2rem 0">
+        <div style="width:52px;height:52px;background:#EAF3DE;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px">
+          <i class="ti ti-circle-check" style="font-size:28px;color:#3B6D11" aria-hidden="true"></i>
+        </div>
+        <div style="font-size:16px;font-weight:500;color:var(--text-primary);margin-bottom:6px">You're signed up!</div>
+        <div style="font-size:13px;color:var(--text-muted)">Check your email for a confirmation with event details.</div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/sidebar.js"></script>
+  <script src="js/signup.js"></script>
+</body>
+</html>

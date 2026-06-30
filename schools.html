@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Schools · Tree-Plenish</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.14.0/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <nav class="sidebar" id="sidebar"></nav>
+
+  <main class="main">
+    <div class="page-title">Schools</div>
+    <div class="page-sub">All schools in the Tree-Plenish network.</div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Active schools</span>
+        <button><i class="ti ti-plus" aria-hidden="true"></i> Add school</button>
+      </div>
+      <table>
+        <colgroup>
+          <col style="width:26%"><col style="width:14%"><col style="width:12%">
+          <col style="width:12%"><col style="width:14%"><col style="width:14%"><col style="width:8%">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>School</th><th>Status</th>
+            <th class="right">Trees</th><th class="right">Planted</th>
+            <th class="right">Volunteers</th><th class="pl">Next event</th><th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="school-row">
+            <td>
+              <div class="school-name">Lincoln High School</div>
+              <div class="school-location">Chicago, IL</div>
+            </td>
+            <td><span class="badge badge-active">Active</span></td>
+            <td class="right">350</td><td class="right">210</td><td class="right">84</td>
+            <td class="pl" style="color:var(--text-muted)">Jul 12</td>
+            <td class="right"><i class="ti ti-chevron-right" style="font-size:14px;color:var(--text-muted)"></i></td>
+          </tr>
+          <tr class="school-row">
+            <td>
+              <div class="school-name">Westview Academy</div>
+              <div class="school-location">Evanston, IL</div>
+            </td>
+            <td><span class="badge badge-active">Active</span></td>
+            <td class="right">200</td><td class="right">200</td><td class="right">60</td>
+            <td class="pl" style="color:var(--text-muted)">Aug 18</td>
+            <td class="right"><i class="ti ti-chevron-right" style="font-size:14px;color:var(--text-muted)"></i></td>
+          </tr>
+          <tr class="school-row">
+            <td>
+              <div class="school-name">Riverside STEM</div>
+              <div class="school-location">Oak Park, IL</div>
+            </td>
+            <td><span class="badge badge-onboarding">Onboarding</span></td>
+            <td class="right">100</td><td class="right">0</td><td class="right">22</td>
+            <td class="pl" style="color:var(--text-muted)">Sep 5</td>
+            <td class="right"><i class="ti ti-chevron-right" style="font-size:14px;color:var(--text-muted)"></i></td>
+          </tr>
+          <tr class="school-row">
+            <td>
+              <div class="school-name">North Shore Prep</div>
+              <div class="school-location">Wilmette, IL</div>
+            </td>
+            <td><span class="badge badge-active">Active</span></td>
+            <td class="right">280</td><td class="right">280</td><td class="right">95</td>
+            <td class="pl" style="color:var(--text-muted)">Oct 2</td>
+            <td class="right"><i class="ti ti-chevron-right" style="font-size:14px;color:var(--text-muted)"></i></td>
+          </tr>
+          <tr class="school-row">
+            <td>
+              <div class="school-name">Lakeside Middle School</div>
+              <div class="school-location">Waukegan, IL</div>
+            </td>
+            <td><span class="badge badge-inactive">Inactive</span></td>
+            <td class="right">150</td><td class="right">150</td><td class="right">40</td>
+            <td class="pl" style="color:var(--text-muted)">—</td>
+            <td class="right"><i class="ti ti-chevron-right" style="font-size:14px;color:var(--text-muted)"></i></td>
+          </tr>
+          <tr class="school-row">
+            <td>
+              <div class="school-name">Madison Elementary</div>
+              <div class="school-location">Naperville, IL</div>
+            </td>
+            <td><span class="badge badge-onboarding">Onboarding</span></td>
+            <td class="right">75</td><td class="right">0</td><td class="right">15</td>
+            <td class="pl" style="color:var(--text-muted)">TBD</td>
+            <td class="right"><i class="ti ti-chevron-right" style="font-size:14px;color:var(--text-muted)"></i></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script src="js/sidebar.js"></script>
+</body>
+</html>

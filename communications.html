@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Communications · Tree-Plenish</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.14.0/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <nav class="sidebar" id="sidebar"></nav>
+
+  <main class="main">
+    <div class="page-title">Communications</div>
+    <div class="page-sub">Automated emails sent to volunteers and coordinators.</div>
+
+    <div class="three-col">
+      <div class="metric-card">
+        <div class="metric-label">Emails sent</div>
+        <div class="metric-value">247</div>
+        <div class="metric-note" style="color:var(--text-muted)">Last 30 days</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Open rate</div>
+        <div class="metric-value">68%</div>
+        <div class="metric-note" style="color:#3B6D11">↑ 4% vs last month</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Pending sends</div>
+        <div class="metric-value">3</div>
+        <div class="metric-note" style="color:#854F0B">Scheduled this week</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Recent communications</span>
+        <button><i class="ti ti-plus" aria-hidden="true"></i> New email</button>
+      </div>
+
+      <div class="comm-item">
+        <div class="comm-icon" style="background:#EAF3DE">
+          <i class="ti ti-mail-check" style="font-size:17px;color:#3B6D11"></i>
+        </div>
+        <div style="flex:1">
+          <div class="comm-subject">Spring Planting Day — volunteer confirmation</div>
+          <div class="comm-meta">Sent to 42 volunteers · Jul 8 at 9:00 AM</div>
+          <div class="comm-stats">
+            <span><i class="ti ti-eye" style="font-size:12px;vertical-align:-1px"></i> 38 opened</span>
+            <span><i class="ti ti-cursor-text" style="font-size:12px;vertical-align:-1px"></i> 12 clicked</span>
+          </div>
+        </div>
+        <span class="badge badge-delivered badge-sm">Sent</span>
+      </div>
+
+      <div class="comm-item">
+        <div class="comm-icon" style="background:#FAEEDA">
+          <i class="ti ti-clock" style="font-size:17px;color:#854F0B"></i>
+        </div>
+        <div style="flex:1">
+          <div class="comm-subject">Reminder: Spring Planting Day is in 4 days</div>
+          <div class="comm-meta">Scheduled for Jul 8 · 84 recipients</div>
+          <div class="comm-stats" style="color:var(--text-muted)">Sends automatically</div>
+        </div>
+        <span class="badge badge-planning badge-sm">Scheduled</span>
+      </div>
+
+      <div class="comm-item">
+        <div class="comm-icon" style="background:#E6F1FB">
+          <i class="ti ti-mail" style="font-size:17px;color:#185FA5"></i>
+        </div>
+        <div style="flex:1">
+          <div class="comm-subject">Campus Green Initiative — signup now open</div>
+          <div class="comm-meta">Scheduled for Jul 10 · All Lincoln HS contacts</div>
+          <div class="comm-stats" style="color:var(--text-muted)">Sends automatically</div>
+        </div>
+        <span class="badge badge-planning badge-sm">Scheduled</span>
+      </div>
+
+      <div class="comm-item">
+        <div class="comm-icon" style="background:#EAF3DE">
+          <i class="ti ti-mail-check" style="font-size:17px;color:#3B6D11"></i>
+        </div>
+        <div style="flex:1">
+          <div class="comm-subject">Thank you for planting with us — Earth Day recap</div>
+          <div class="comm-meta">Sent to 55 volunteers · Apr 23 at 10:00 AM</div>
+          <div class="comm-stats">
+            <span><i class="ti ti-eye" style="font-size:12px;vertical-align:-1px"></i> 50 opened</span>
+            <span><i class="ti ti-cursor-text" style="font-size:12px;vertical-align:-1px"></i> 28 clicked</span>
+          </div>
+        </div>
+        <span class="badge badge-delivered badge-sm">Sent</span>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/sidebar.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Events · Tree-Plenish</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.14.0/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <nav class="sidebar" id="sidebar"></nav>
+
+  <main class="main">
+    <div class="page-title">Events</div>
+    <div class="page-sub">Manage planting events across all schools.</div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">All events</span>
+        <button><i class="ti ti-plus" aria-hidden="true"></i> New event</button>
+      </div>
+      <table>
+        <colgroup>
+          <col style="width:28%"><col style="width:14%"><col style="width:16%">
+          <col style="width:12%"><col style="width:12%"><col style="width:18%">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Event</th><th>Date</th><th>Location</th>
+            <th class="right">Trees</th><th class="right">Volunteers</th><th class="pl">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="primary">Spring Planting Day</td>
+            <td style="color:var(--text-muted)">Jul 12</td>
+            <td style="color:var(--text-muted)">North Park</td>
+            <td class="right">120</td><td class="right">42</td>
+            <td class="pl"><span class="badge badge-confirmed">Confirmed</span></td>
+          </tr>
+          <tr>
+            <td class="primary">Campus Green Initiative</td>
+            <td style="color:var(--text-muted)">Aug 3</td>
+            <td style="color:var(--text-muted)">Campus East</td>
+            <td class="right">80</td><td class="right">28</td>
+            <td class="pl"><span class="badge badge-planning">Planning</span></td>
+          </tr>
+          <tr>
+            <td class="primary">Fall Neighborhood Drive</td>
+            <td style="color:var(--text-muted)">Sep 20</td>
+            <td style="color:var(--text-muted)">TBD</td>
+            <td class="right">—</td><td class="right">—</td>
+            <td class="pl"><span class="badge badge-idea">Idea</span></td>
+          </tr>
+          <tr>
+            <td class="primary">Earth Day Kickoff</td>
+            <td style="color:var(--text-muted)">Apr 22</td>
+            <td style="color:var(--text-muted)">Riverside Park</td>
+            <td class="right">90</td><td class="right">55</td>
+            <td class="pl"><span class="badge badge-delivered">Completed</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script src="js/sidebar.js"></script>
+</body>
+</html>

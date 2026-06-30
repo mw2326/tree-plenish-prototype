@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Orders · Tree-Plenish</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.14.0/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <nav class="sidebar" id="sidebar"></nav>
+
+  <main class="main">
+    <div class="page-title">Orders</div>
+    <div class="page-sub">Track tree orders and delivery status.</div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">All orders</span>
+        <button><i class="ti ti-plus" aria-hidden="true"></i> New order</button>
+      </div>
+      <table>
+        <colgroup>
+          <col style="width:22%"><col style="width:18%"><col style="width:12%">
+          <col style="width:12%"><col style="width:18%"><col style="width:18%">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Species</th><th>School</th>
+            <th class="right">Qty</th><th class="right">Planted</th>
+            <th class="pl">Delivery</th><th class="pl">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="primary">Red Oak</td>
+            <td style="color:var(--text-muted)">Lincoln HS</td>
+            <td class="right">150</td><td class="right">150</td>
+            <td class="pl" style="color:var(--text-muted)">Jun 15</td>
+            <td class="pl"><span class="badge badge-delivered">Delivered</span></td>
+          </tr>
+          <tr>
+            <td class="primary">Sugar Maple</td>
+            <td style="color:var(--text-muted)">Lincoln HS</td>
+            <td class="right">100</td><td class="right">60</td>
+            <td class="pl" style="color:var(--text-muted)">Jul 14</td>
+            <td class="pl"><span class="badge badge-processing">Processing</span></td>
+          </tr>
+          <tr>
+            <td class="primary">White Birch</td>
+            <td style="color:var(--text-muted)">Lincoln HS</td>
+            <td class="right">100</td><td class="right">—</td>
+            <td class="pl" style="color:var(--text-muted)">Aug 1</td>
+            <td class="pl"><span class="badge badge-pending">Pending</span></td>
+          </tr>
+          <tr>
+            <td class="primary">Silver Maple</td>
+            <td style="color:var(--text-muted)">Westview</td>
+            <td class="right">200</td><td class="right">200</td>
+            <td class="pl" style="color:var(--text-muted)">May 10</td>
+            <td class="pl"><span class="badge badge-delivered">Delivered</span></td>
+          </tr>
+          <tr>
+            <td class="primary">Eastern Redbud</td>
+            <td style="color:var(--text-muted)">Riverside STEM</td>
+            <td class="right">100</td><td class="right">—</td>
+            <td class="pl" style="color:var(--text-muted)">Sep 1</td>
+            <td class="pl"><span class="badge badge-pending">Pending</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script src="js/sidebar.js"></script>
+</body>
+</html>
